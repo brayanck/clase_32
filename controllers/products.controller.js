@@ -19,29 +19,30 @@ const buscarProductController = async (req, res) => {
 };
 const guardarProductController = async (req, res,next) => {
   console.log(req.body);
-  // try {
+  try {
     for (const key in req.body) {
       if (req.body.hasOwnProperty(key)) {
         // Verifica si la propiedad es una cadena vacía
         if (req.body[key] === '') {
           
           CustomError.createError({
-            name: "Product create Error",
+            name: "Product creation error",
             cause: generateProductErrorInfo(req.body),
-            message: "Error to create product",
+            message: "Error to create product - TEST",
             code: EErrors.INVALID_TYPES_ERROR
-          });
+        })
+        
         }
       }
     }
 
     const savedProduct = await productServices.createProduct(req.body);
     res.redirect("/api/admin");
-  // } catch (err) {
-  //   // Maneja el error personalizado aquí
-  //   console.error(err); // Asegúrate de que estás viendo los detalles del error en la consola
-  //   res.status(500).send({ error: err.code, message: err.message });
-  // }
+  } catch (err) {
+    // Maneja el error personalizado aquí
+    console.error(err); // Asegúrate de que estás viendo los detalles del error en la consola
+    res.status(500).send({ error: err.code, message: err.message });
+  }
 };
 const eliminarProductoController= async (req, res) => {
   let id= req.params.pid
@@ -70,10 +71,11 @@ const mokingProductController = async (req, res) => {
    
 }
 
+
 module.exports = {
   buscarProductController,
   guardarProductController,
   eliminarProductoController,
   actualizarProductController,
-  mokingProductController
+  mokingProductController,
 };

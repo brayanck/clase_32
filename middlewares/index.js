@@ -1,22 +1,14 @@
-const EErrors = require('../services/errors/enums')
+const EErrors = require("../services/errors/enums")
 
-const errorHadler = (error,req,res,next)=>{
-    console.log("Error detectado entrando al Error handler")
-    console.log(error.cause)
-    switch(error.code){
+module.exports = (error, req, res, next) => {
+    console.error("Error detectado entrando al Error Handler");
+    console.error(error.cause);
+    // switch
+    switch (error.code) {
         case EErrors.INVALID_TYPES_ERROR:
-            res.status(400).send({status:"error",error:error.message})
+            res.status(400).send({ status: 'Error', error: error.message })
             break;
         default:
-            res.status(400).send({status:"error",error:"unhandled error"})
+            res.status(500).send({ status: "error", error: "Unhandled error!" });
     }
-}
-
-module.exports = {
-    errorHadler
-}
-
-
-
-
-
+};
